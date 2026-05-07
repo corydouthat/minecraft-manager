@@ -6,7 +6,7 @@
 SCRIPT_VERSION="1.2.0"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG_FILE="${SCRIPT_DIR}/minecraft-bedrock-manager.conf"
+CONFIG_FILE="$(cd "${SCRIPT_DIR}/.." && pwd)/minecraft-bedrock-manager.conf"
 
 DEFAULT_SERVER_DIR="${SCRIPT_DIR}/minecraft-bedrock-server"
 DEFAULT_SERVER_BINARY="bedrock_server"
