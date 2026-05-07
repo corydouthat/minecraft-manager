@@ -1,0 +1,24 @@
+# Minecraft Bedrock Server Manager Configuration
+# Copy this file to minecraft-bedrock-manager.conf and adjust as needed.
+# The script will create this file automatically on first run.
+
+# Absolute or relative path to the server directory
+SERVER_DIR="/path/to/minecraft-bedrock-server"
+
+# Bedrock server binary name (default: bedrock_server)
+SERVER_BINARY="bedrock_server"
+
+# Name of the screen session
+SCREEN_NAME="minecraft-bedrock-server"
+
+# Time to perform the daily update check (24h HH:MM format)
+UPDATE_CHECK_TIME="03:00"
+
+# Log file location (leave empty to use SERVER_DIR/minecraft-bedrock-manager.log)
+LOG_FILE=""
+
+# Game rules applied every time the server starts (comma-separated key=value)
+GAMERULES_STRING="keepInventory=true,playersSleepingPercentage=30,showCoordinates=true"
+
+# Number of backups to keep (older ones are deleted automatically)
+MAX_BACKUPS=5

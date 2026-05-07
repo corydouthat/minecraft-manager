@@ -1,0 +1,27 @@
+# Config files — may contain secrets or local paths; use *.conf.example as templates
+*.conf
+
+# Server directories (binaries, worlds, player data)
+minecraft-bedrock-server/
+minecraft-java-server/
+
+# Backup directories created by the manager
+*_backup_*/
+
+# Log files
+*.log
+
+# OS / editor artifacts
+.DS_Store
+*.swp
+*.swo
+*~
+
+# ── Files that must NEVER be committed ───────────────────────────────────────
+# server.properties contains rcon passwords and management-server-secret
+server.properties
+# Player lists contain UUIDs and names
+whitelist.json
+ops.json
+banned-players.json
+banned-ips.json

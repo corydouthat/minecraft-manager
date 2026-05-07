@@ -1,0 +1,35 @@
+# Minecraft Java Server Manager Configuration
+# Copy this file to minecraft-java-manager.conf and adjust as needed.
+# The script will create this file automatically on first run.
+
+# Absolute or relative path to the server directory
+SERVER_DIR="/path/to/minecraft-java-server"
+
+# JAR file name within SERVER_DIR
+# The 'update' command downloads the latest Mojang release to this path.
+SERVER_JAR="server.jar"
+
+# Name of the screen session
+SCREEN_NAME="minecraft-java-server"
+
+# Java heap size
+MIN_RAM="2G"
+MAX_RAM="8G"
+
+# Log file location (leave empty to use SERVER_DIR/minecraft-java-manager.log)
+LOG_FILE=""
+
+# Game rules applied every time the server starts (comma-separated key=value, or leave empty)
+GAMERULES_STRING=""
+
+# Auto-accept Mojang EULA on first start (https://www.minecraft.net/en-us/eula)
+# Set to true only after reading and agreeing to the EULA.
+AUTO_ACCEPT_EULA="false"
+
+# Automatically apply updates during monitor mode.
+# WARNING: Java server updates require ALL clients to update simultaneously.
+# Leave false and run 'update' manually to control the timing.
+AUTO_UPDATE="false"
+
+# Number of backups to keep (older ones are deleted automatically)
+MAX_BACKUPS=5
