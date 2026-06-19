@@ -190,12 +190,12 @@ get_latest_download_url() {
     local url=""
 
     if command -v jq &>/dev/null; then
-        url=$(echo "$json" | jq -r '.result[] | select(.downloadType == "serverBedrockLinux") | .downloadUrl' 2>/dev/null | head -1)
+        url=$(echo "$json" | jq -r '.result.links[] | select(.downloadType == "serverBedrockLinux") | .downloadUrl' 2>/dev/null | head -1)
     elif command -v python3 &>/dev/null; then
         url=$(echo "$json" | python3 -c "
 import json, sys
 data = json.load(sys.stdin)
-for item in data.get('result', []):
+for item in data.get('result', {}).get('links', []):
     if item.get('downloadType') == 'serverBedrockLinux':
         print(item.get('downloadUrl', ''))
         break
@@ -351,7 +351,13 @@ check_and_update() {
     [ -f "$LAST_UPDATE_FILE" ] && last=$(cat "$LAST_UPDATE_FILE")
     [ "$today" = "$last" ] && return 0
 
-    [ "$(date +%H:%M)" != "$UPDATE_CHECK_TIME" ] && return 0
+    # Fire once per day, on the first check at or after the scheduled time.
+    # (Matching HH:MM exactly could miss the whole day if the monitor loop never
+    #  happened to sample the clock during that one-minute window.)
+    local now_min sched_min
+    now_min=$(( 10#$(date +%H) * 60 + 10#$(date +%M) ))
+    sched_min=$(( 10#${UPDATE_CHECK_TIME%%:*} * 60 + 10#${UPDATE_CHECK_TIME##*:} ))
+    [ "$now_min" -lt "$sched_min" ] && return 0
 
     log "Daily update check triggered"
 
