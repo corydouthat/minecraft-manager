@@ -361,11 +361,30 @@ check_and_update() {
 
     log "Daily update check triggered"
 
-    if players_connected; then
-        log "Players online — skipping update"
+    # Mark the day as checked up front, regardless of outcome. Otherwise a day
+    # with no update applied (already latest, or a transient API error) never
+    # records LAST_UPDATE_FILE, the once-per-day guard above never trips, and the
+    # monitor loop re-runs this every cycle — a restart storm.
+    echo "$today" > "$LAST_UPDATE_FILE"
+
+    local url latest current
+    url=$(get_latest_download_url) || { log "Update check failed; will retry tomorrow"; return 0; }
+    latest=$(extract_version_from_url "$url")
+    current=$(get_current_version)
+    log "Installed: $current"
+    log "Latest:    $latest"
+
+    if [ "$current" = "$latest" ]; then
+        log "Already up to date — no restart needed"
         return 0
     fi
 
+    if players_connected; then
+        log "Players online — deferring update until tomorrow's check"
+        return 0
+    fi
+
+    log "Update available: $current -> $latest"
     stop_server
     sleep 5
     update_server
